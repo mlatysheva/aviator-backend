@@ -11,6 +11,7 @@ const _filename = fileURLToPath(import.meta.url);
 const pathToDB = getResolvedPath(_filename, 'db.json');
 const middlewares = jsonServer.defaults();
 const router = jsonServer.router(pathToDB);
+const PORT = process.env.PORT || 3000;
 
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
@@ -103,7 +104,7 @@ server.post('/flightspair', (req, res) => {
 
 server.use(router);
 
-server.listen(process.env.PORT, () => {
-  console.log(`JSON Server is running on ${process.env.PORT}`);
+server.listen(PORT, () => {
+  console.log(`JSON Server is running on ${PORT}`);
 });
 

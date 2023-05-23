@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "PORT=3000 node server.js --watch db.json"
+    "start": "node server.js --watch db.json"
   },
   "author": "",
   "license": "ISC",
