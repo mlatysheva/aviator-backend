@@ -5,13 +5,11 @@ import fs from 'fs';
 import { getResolvedPath } from './utils/getResolvedPath.js';
 import { fileURLToPath } from 'url';
 import { generateFlights } from './utils/generateFlights.js';
-import { IFlight } from './types/flight.js';
 
 const server = jsonServer.create();
 const _filename = fileURLToPath(import.meta.url);
 const pathToDB = getResolvedPath(_filename, 'db.json');
 const middlewares = jsonServer.defaults();
-const port = 3000;
 const router = jsonServer.router(pathToDB);
 
 server.use(middlewares);
@@ -35,7 +33,7 @@ server.use((req, res, next) => {
     );
 
     const { users = [] } = db;
-    const userFromBd = users.find((user: any) => user.email === email);
+    const userFromBd = users.find((user) => user.email === email);
     if (userFromBd) {
       return res.status(403).json({ message: 'User with such email already exists' });
     }
@@ -52,7 +50,7 @@ server.post('/login', (req, res) => {
 
     const { users = [] } = db;
     const userFromBd = users.find(
-      (user: any) => user.email === email && user.password === password,
+      (user) => user.email === email && user.password === password,
     );
 
     if (userFromBd) {
@@ -74,7 +72,7 @@ server.post('/flightspair', (req, res) => {
     );
     const { flights = [] } = db;
     const departureFlight = flights.find(
-      (flight: IFlight) => flight.originAirportIataCode === originAirportIataCode && flight.destinationAirportIataCode === destinationAirportIataCode,
+      (flight) => flight.originAirportIataCode === originAirportIataCode && flight.destinationAirportIataCode === destinationAirportIataCode,
     );
     const indexOfOriginalFlight = flights.indexOf(departureFlight);
     let returnFlight;
@@ -84,7 +82,7 @@ server.post('/flightspair', (req, res) => {
       returnFlight = flights[indexOfOriginalFlight - 1];
     } else {
       returnFlight = flights.find(
-        (flight: IFlight) => flight.originAirportIataCode === destinationAirportIataCode && flight.destinationAirportIataCode === originAirportIataCode,
+        (flight) => flight.originAirportIataCode === destinationAirportIataCode && flight.destinationAirportIataCode === originAirportIataCode,
       );
     }
 
@@ -105,6 +103,7 @@ server.post('/flightspair', (req, res) => {
 
 server.use(router);
 
-server.listen(port, () => {
-  console.log(`JSON Server is running on ${port}`);
+server.listen(process.env.PORT, () => {
+  console.log(`JSON Server is running on ${process.env.PORT}`);
 });
+

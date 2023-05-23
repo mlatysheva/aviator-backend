@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import { getResolvedPath } from './getResolvedPath.js';
 import { fileURLToPath } from 'url';
-import { IFlight } from '../types/flight.js';
 import { v4 as uuidv4 } from 'uuid';
 import airports from '../data/airports.json' assert { type: 'json'};
 import { generateRandomTime } from './generateRandomTime.js';
@@ -9,15 +8,15 @@ import { generateRandomTime } from './generateRandomTime.js';
 export const generateFlights = async () => {
   try {
     const _filename = fileURLToPath(import.meta.url);
-    const flights: IFlight[] = [];
+    const flights = [];
     const flightOptions = [[0, 1, 2, 3, 4, 5, 6], [1, 3, 5], [0, 2, 4, 6], [1, 3, 5, 6]];
     for (let i = 0; i < airports.length; i++) {
-      const { iata_code: originAirportIataCode } = airports[i] as { iata_code: string };
+      const { iata_code: originAirportIataCode } = airports[i];
       for (let j = i + 1; j < airports.length; j++) {
-        const { iata_code: destinationAirportIataCode } = airports[j] as { iata_code: string };
+        const { iata_code: destinationAirportIataCode } = airports[j];
         if (originAirportIataCode === destinationAirportIataCode) return;
         const flightNumber = Math.floor(Math.random() * 1000);
-        const flight: IFlight = {
+        const flight = {
           id: uuidv4(),
           originAirportIataCode,
           destinationAirportIataCode,
@@ -47,7 +46,7 @@ export const generateFlights = async () => {
           flight.pricesChild.push(priceChild + i * 3);
           flight.pricesInfant.push(priceInfant + i * 2);
         }
-        const returnFlight: IFlight = {
+        const returnFlight = {
           id: uuidv4(),
           originAirportIataCode: flight.destinationAirportIataCode,
           destinationAirportIataCode: flight.originAirportIataCode,

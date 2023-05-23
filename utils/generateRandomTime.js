@@ -1,4 +1,4 @@
-function pad(num: number) { 
+function pad(num) { 
   //Add a leading 0 if the number is less than 10
   return ((num<10)?"0":"")+num.toString();
 }
